@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Button, Modal, Form, Input, Radio,Table,Checkbox } from 'antd';
-import CheckAll from './checkAll';
 const CheckboxGroup = Checkbox.Group;
 const columns = [
   { title: 'Name', dataIndex: 'name', key: 'name' },
@@ -15,9 +14,6 @@ const data = [
   { key: 3, name: 'Joe Black', id: 3, address: 'Sidney No. 1 Lake Park', description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.' },
 ];
 const plainOptions = ['Apple', 'Pear', 'Orange'];
-const defaultCheckedList = ['Apple', 'Orange'];
-
-
 class IndexPage extends React.Component {
   constructor(props){
     super(props)
@@ -28,8 +24,12 @@ class IndexPage extends React.Component {
     }
   }
   onChange = (checkedList,record) => {
+    //checkedList可以获取全部的被选择的复选框，
     let newfetch = this.state.checkedList;
     newfetch[record.id] = checkedList
+    //{
+    //  id:[id1,id2]
+    //}
     this.setState({
       checkedList:newfetch,
       indeterminate: !!checkedList.length && (checkedList.length < plainOptions.length),
