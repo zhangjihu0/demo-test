@@ -20,7 +20,9 @@ class IndexPage extends React.Component {
     this.state={
       checkedList: {},
       indeterminate: true,
-      checkAll: false,
+      checkAll:{
+
+      },
     }
   }
   onChange = (checkedList,record) => {
@@ -30,20 +32,24 @@ class IndexPage extends React.Component {
     //{
     //  id:[id1,id2]
     //}
+    let { checkAll} = this.state;
+    checkedList.length === plainOptions.length?checkAll[record.id]=true:false
     this.setState({
       checkedList:newfetch,
       indeterminate: !!checkedList.length && (checkedList.length < plainOptions.length),
-      checkAll: checkedList.length === plainOptions.length,
+      checkAll,
       fetchData:newfetch
     })
   }
   onCheckAllChange = (e,record) => {
     let newfetch = this.state.checkedList;
     newfetch[record.id] = e.target.checked ? plainOptions : []
+    let { checkAll} = this.state;
+    checkAll[record.id] = e.target.checked
     this.setState({
-      checkedList:newfetch, 
+      checkedList:newfetch,
       indeterminate: false,
-      checkAll: e.target.checked,
+      checkAll
     });
   }
   render() {
@@ -58,7 +64,7 @@ class IndexPage extends React.Component {
                         <Checkbox
                           indeterminate={this.state.indeterminate}
                           onChange={(e)=>this.onCheckAllChange(e,record)}
-                          checked={this.state.checkAll}
+                          checked={record.id in this.state.checkAll?this.state.checkAll[record.id]:false }
                         >
                           Check all
                         </Checkbox>
